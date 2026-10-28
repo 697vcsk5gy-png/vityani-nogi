@@ -1,0 +1,192 @@
+{
+  "currency": "rub",
+  "origins": [
+    {
+      "code": "MOW",
+      "name": "Москва",
+      "from": "из Москвы"
+    },
+    {
+      "code": "LED",
+      "name": "Санкт-Петербург",
+      "from": "из Петербурга"
+    },
+    {
+      "code": "KZN",
+      "name": "Казань",
+      "from": "из Казани"
+    },
+    {
+      "code": "SVX",
+      "name": "Екатеринбург",
+      "from": "из Екатеринбурга"
+    },
+    {
+      "code": "OVB",
+      "name": "Новосибирск",
+      "from": "из Новосибирска"
+    },
+    {
+      "code": "AER",
+      "name": "Сочи",
+      "from": "из Сочи"
+    },
+    {
+      "code": "UFA",
+      "name": "Уфа",
+      "from": "из Уфы"
+    },
+    {
+      "code": "KUF",
+      "name": "Самара",
+      "from": "из Самары"
+    },
+    {
+      "code": "KJA",
+      "name": "Красноярск",
+      "from": "из Красноярска"
+    },
+    {
+      "code": "VVO",
+      "name": "Владивосток",
+      "from": "из Владивостока"
+    }
+  ],
+  "months_ahead": 3,
+  "min_nights": 5,
+  "max_nights": 21,
+  "max_transfers": 1,
+  "classes": [
+    "economy",
+    "business"
+  ],
+  "drop_percent": 20,
+  "min_history": 4,
+  "business_vs_economy": 1.7,
+  "max_drafts_per_run": 6,
+  "max_drafts_per_origin": 2,
+  "repeat_after_days": 5,
+  "draft_ttl_hours": 36,
+  "destinations": [
+    {
+      "code": "HKT",
+      "name": "Пхукет",
+      "to": "на Пхукет"
+    },
+    {
+      "code": "BKK",
+      "name": "Бангкок",
+      "to": "в Бангкок"
+    },
+    {
+      "code": "SGN",
+      "name": "Хошимин",
+      "to": "в Хошимин"
+    },
+    {
+      "code": "PQC",
+      "name": "Фукуок",
+      "to": "на Фукуок"
+    },
+    {
+      "code": "CXR",
+      "name": "Нячанг",
+      "to": "в Нячанг"
+    },
+    {
+      "code": "DPS",
+      "name": "Бали",
+      "to": "на Бали"
+    },
+    {
+      "code": "MLE",
+      "name": "Мальдивы",
+      "to": "на Мальдивы"
+    },
+    {
+      "code": "CMB",
+      "name": "Шри-Ланка",
+      "to": "на Шри-Ланку"
+    },
+    {
+      "code": "GOI",
+      "name": "Гоа",
+      "to": "на Гоа"
+    },
+    {
+      "code": "KUL",
+      "name": "Куала-Лумпур",
+      "to": "в Куала-Лумпур"
+    },
+    {
+      "code": "SIN",
+      "name": "Сингапур",
+      "to": "в Сингапур"
+    },
+    {
+      "code": "HKG",
+      "name": "Гонконг",
+      "to": "в Гонконг"
+    },
+    {
+      "code": "BJS",
+      "name": "Пекин",
+      "to": "в Пекин"
+    },
+    {
+      "code": "SHA",
+      "name": "Шанхай",
+      "to": "в Шанхай"
+    },
+    {
+      "code": "TYO",
+      "name": "Токио",
+      "to": "в Токио"
+    },
+    {
+      "code": "SEL",
+      "name": "Сеул",
+      "to": "в Сеул"
+    },
+    {
+      "code": "DXB",
+      "name": "Дубай",
+      "to": "в Дубай"
+    },
+    {
+      "code": "AUH",
+      "name": "Абу-Даби",
+      "to": "в Абу-Даби"
+    },
+    {
+      "code": "IST",
+      "name": "Стамбул",
+      "to": "в Стамбул"
+    },
+    {
+      "code": "AYT",
+      "name": "Анталья",
+      "to": "в Анталью"
+    },
+    {
+      "code": "HRG",
+      "name": "Хургада",
+      "to": "в Хургаду"
+    },
+    {
+      "code": "TBS",
+      "name": "Тбилиси",
+      "to": "в Тбилиси"
+    },
+    {
+      "code": "EVN",
+      "name": "Ереван",
+      "to": "в Ереван"
+    },
+    {
+      "code": "BEG",
+      "name": "Белград",
+      "to": "в Белград"
+    }
+  ]
+}
