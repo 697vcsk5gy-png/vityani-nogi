@@ -246,6 +246,8 @@ def run_search():
     drafts = state.setdefault("drafts", {})
     dests = {d["code"]: d for d in cfg["destinations"]}
     candidates = []
+    stats = {}          # город -> сколько вариантов в кэше / по нашим направлениям
+    cheapest = {}       # (город, направление, класс) -> лучшая цена за все месяцы
 
     for org in cfg["origins"]:
         for month in months_ahead(cfg["months_ahead"]):
@@ -256,9 +258,13 @@ def run_search():
                 except Exception as e:
                     print(f"[{org['code']} {month} {cls}] ошибка: {e}")
                     continue
+                st = stats.setdefault(org["code"], {"all": 0, "ours": 0})
+                st["all"] += len(offers)
                 for o in offers:   # уже отсортированы по цене
-                    if o["destination"] in dests and (cls, o["destination"]) not in best_by:
-                        best_by[(cls, o["destination"])] = o
+                    if o["destination"] in dests:
+                        st["ours"] += 1
+                        if (cls, o["destination"]) not in best_by:
+                            best_by[(cls, o["destination"])] = o
                 time.sleep(0.3)
 
             for code, dest in dests.items():
@@ -268,6 +274,10 @@ def run_search():
                     best = best_by.get((cls, code))
                     if not best:
                         continue
+                    ck = (org["code"], code, cls)
+                    if ck not in cheapest or best["price"] < cheapest[ck]["price"]:
+                        cheapest[ck] = {"price": best["price"], "org": org, "dest": dest,
+                                        "economy": economy_best, "offer": best}
                     key = f"{org['code']}-{code}-{month}-{cls}"
                     hist = hist_all.setdefault(key, [])
                     reasons, median = is_deal(cfg, cls, best, hist, economy_best)
@@ -316,11 +326,40 @@ def run_search():
                             "message_id": msg["message_id"], "cls": d["cls"]}
         proposed[d["key"]] = {"ts": now().isoformat(), "price": d["offer"]["price"]}
 
+    for code, st in stats.items():
+        print(f"[{code}] вариантов в кэше: {st['all']}, по нашим направлениям: {st['ours']}")
+
+    manual = os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"
+    every = cfg.get("report", "every") == "every"
+    if manual or every or (now().hour in (6, 7) and not state.get("report_day") == now().date().isoformat()):
+        state["report_day"] = now().date().isoformat()
+        send_report(cfg, stats, cheapest, len(candidates), len(picked))
+
     # убираем старые черновики
     ttl = timedelta(hours=cfg["draft_ttl_hours"])
     for k in [k for k, v in drafts.items() if now() - parse_dt(v["ts"]) > ttl * 2]:
         drafts.pop(k)
     save_json(STATE_PATH, state)
+
+
+def send_report(cfg, stats, cheapest, found, sent):
+    total = sum(st["ours"] for st in stats.values())
+    lines = [f"🔎 Отчёт поиска",
+             f"Городов проверено: {len(stats)} из {len(cfg['origins'])}, вариантов по нашим направлениям: {total}",
+             f"Находок по правилам: {found}, отправлено черновиков: {sent}"]
+    eco = sorted([v for (o, d, c), v in cheapest.items() if c == "economy"], key=lambda v: v["price"])[:5]
+    if eco:
+        lines += ["", "Самый дешёвый эконом сейчас:"]
+        lines += [f"• {v['org']['name']} → {v['dest']['name']}: {rub(v['price'])}" for v in eco]
+    bus = [v for (o, d, c), v in cheapest.items() if c == "business" and v["economy"]]
+    bus = sorted(bus, key=lambda v: v["price"] / v["economy"])[:5]
+    if bus:
+        lines += ["", "Бизнес ближе всего к эконому:"]
+        lines += [f"• {v['org']['name']} → {v['dest']['name']}: {rub(v['price'])} "
+                  f"(×{v['price'] / v['economy']:.1f} к эконому)" for v in bus]
+    if not total:
+        lines += ["", "⚠️ API не вернул ни одного варианта — проверьте токен Travelpayouts."]
+    tg("sendMessage", chat_id=ADMIN_CHAT, text="\n".join(lines), disable_web_page_preview=True)
 
 
 # ---------- режим одобрения ----------
