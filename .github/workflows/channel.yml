@@ -1,0 +1,54 @@
+name: Channel agent
+
+on:
+  schedule:
+    - cron: "20 */6 * * *"
+    - cron: "10,40 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "search или approvals"
+        default: "search"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-state
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Run channel agent
+        env:
+          TRAVELPAYOUTS_TOKEN: ${{ secrets.TRAVELPAYOUTS_TOKEN }}
+          TRAVELPAYOUTS_MARKER: ${{ secrets.TRAVELPAYOUTS_MARKER }}
+          TRAVELPAYOUTS_TRS: ${{ secrets.TRAVELPAYOUTS_TRS }}
+          CHANNEL_BOT_TOKEN: ${{ secrets.CHANNEL_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python channel_agent.py "${{ inputs.mode }}"
+          elif [ "${{ github.event.schedule }}" = "20 */6 * * *" ]; then
+            python channel_agent.py search
+          else
+            python channel_agent.py approvals
+          fi
+      - name: Save state
+        run: |
+          git config user.name "channel-agent"
+          git config user.email "channel-agent@users.noreply.github.com"
+          git add channel_state.json
+          git diff --cached --quiet && exit 0
+          git commit -m "channel state update"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
+          exit 1
