@@ -178,8 +178,13 @@ def partner_link(url):
 
 def template_post(cfg, d):
     o = d["offer"]
-    if d["cls"] == "business":
-        head = f"💺 Бизнес-класс {d['from']} {d['to']} почти по цене эконома"
+    ratio = o["price"] / d["economy"] if d.get("economy") else None
+    if d["cls"] == "business" and ratio and ratio <= 1.5:
+        head = f"🔥 Бизнес-класс {d['from']} {d['to']} почти по цене эконома"
+    elif d["cls"] == "business" and ratio and ratio <= 2.05:
+        head = f"💺 Бизнес-класс {d['from']} {d['to']} всего вдвое дороже эконома"
+    elif d["cls"] == "business":
+        head = f"💺 Выгодный бизнес-класс {d['from']} {d['to']}"
     else:
         head = f"🔥 Дешёвые билеты {d['from']} {d['to']}"
     lines = [head, "",
