@@ -52,7 +52,7 @@
       "from": "из Владивостока"
     }
   ],
-  "months_ahead": 3,
+  "months_ahead": 6,
   "min_nights": 5,
   "max_nights": 21,
   "max_transfers": 1,
@@ -62,7 +62,7 @@
   ],
   "drop_percent": 20,
   "min_history": 4,
-  "business_vs_economy": 1.7,
+  "business_vs_economy": 2.0,
   "max_drafts_per_run": 6,
   "max_drafts_per_origin": 2,
   "repeat_after_days": 5,
