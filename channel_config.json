@@ -67,6 +67,7 @@
   "max_drafts_per_origin": 2,
   "repeat_after_days": 5,
   "draft_ttl_hours": 36,
+  "report": "every",
   "destinations": [
     {
       "code": "HKT",
