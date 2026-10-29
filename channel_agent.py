@@ -101,6 +101,15 @@ def tp_get(path, params):
 
 
 TRIP_CLASS = {"economy": 0, "business": 1, "first": 2}
+CLASS_LETTER = {0: "", 1: "c", 2: "f"}   # эконом — без буквы, бизнес — c, первый — f
+
+
+def search_link(origin, dest, dep, ret, trip_class):
+    """Ссылка на поиск Aviasales с уже выбранным классом, вида /search/MOW1001HKT2401c1."""
+    path = f"/search/{origin}{dep[8:10]}{dep[5:7]}{dest}"
+    if ret:
+        path += f"{ret[8:10]}{ret[5:7]}"
+    return "https://www.aviasales.ru" + path + CLASS_LETTER.get(trip_class, "") + "1"
 
 
 def fetch_month(cfg, origin, month, cls):
@@ -119,10 +128,10 @@ def fetch_month(cfg, origin, month, cls):
             dep, ret, dest = d.get("depart_date"), d.get("return_date"), d.get("destination")
             if not dep or not ret or not dest:
                 continue
-            path = f"/search/{origin}{dep[8:10]}{dep[5:7]}{dest}{ret[8:10]}{ret[5:7]}1"
             offers.append({"destination": dest, "price": d["value"], "departure_at": dep,
                            "return_at": ret, "transfers": d.get("number_of_changes", 0),
-                           "return_transfers": d.get("number_of_changes", 0), "link": path})
+                           "return_transfers": d.get("number_of_changes", 0),
+                           "link": search_link(origin, dest, dep, ret, TRIP_CLASS[cls])})
         if len(raw) < 1000:
             break
         time.sleep(0.3)
@@ -188,7 +197,7 @@ def template_post(cfg, d):
     else:
         head = f"🔥 Дешёвые билеты {d['from']} {d['to']}"
     lines = [head, "",
-             f"✈️ {d['origin_name']} → {d['name']} и обратно",
+             f"✈️ {d['origin_name']} ⇄ {d['name']}",
              f"📅 {ru_date(o['departure_at'])} — {ru_date(o['return_at'])} ({o['nights']} ноч.)",
              f"💰 {rub(o['price'])} туда-обратно",
              "🔄 прямой рейс" if o.get("transfers", 0) == 0 else f"🔄 пересадок: {o['transfers']}"]
@@ -203,7 +212,7 @@ def template_post(cfg, d):
 def claude_post(cfg, d):
     o = d["offer"]
     facts = {
-        "направление": f"{d['origin_name']} → {d['name']} и обратно",
+        "направление": f"{d['origin_name']} ⇄ {d['name']} (туда и обратно, в тексте пиши через ⇄)",
         "класс": "бизнес" if d["cls"] == "business" else "эконом",
         "даты": f"{ru_date(o['departure_at'])} — {ru_date(o['return_at'])}, {o['nights']} ночей",
         "цена": rub(o["price"]),
@@ -355,12 +364,12 @@ def send_report(cfg, stats, cheapest, found, sent):
     eco = sorted([v for (o, d, c), v in cheapest.items() if c == "economy"], key=lambda v: v["price"])[:5]
     if eco:
         lines += ["", "Самый дешёвый эконом сейчас:"]
-        lines += [f"• {v['org']['name']} → {v['dest']['name']}: {rub(v['price'])}" for v in eco]
+        lines += [f"• {v['org']['name']} ⇄ {v['dest']['name']}: {rub(v['price'])}" for v in eco]
     bus = [v for (o, d, c), v in cheapest.items() if c == "business" and v["economy"]]
     bus = sorted(bus, key=lambda v: v["price"] / v["economy"])[:5]
     if bus:
         lines += ["", "Бизнес ближе всего к эконому:"]
-        lines += [f"• {v['org']['name']} → {v['dest']['name']}: {rub(v['price'])} "
+        lines += [f"• {v['org']['name']} ⇄ {v['dest']['name']}: {rub(v['price'])} "
                   f"(×{v['price'] / v['economy']:.1f} к эконому)" for v in bus]
     if not total:
         lines += ["", "⚠️ API не вернул ни одного варианта — проверьте токен Travelpayouts."]
