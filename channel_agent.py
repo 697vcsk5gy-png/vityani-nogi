@@ -353,6 +353,7 @@ def run_search():
     dests = {d["code"]: d for d in cfg["destinations"]}
     trip_types = cfg.get("trip_types", ["roundtrip"])
     candidates = []
+    reserve = []        # «просто хорошие» цены для добора до min_drafts_per_run
     stats = {}          # город -> сколько вариантов
     cheapest = {}       # (город, направление, класс, тип) -> лучшая цена за все месяцы
 
@@ -391,8 +392,6 @@ def run_search():
                         reasons, median = is_deal(cfg, cls, best, hist, economy_best)
                         hist.append({"ts": now().isoformat(timespec="minutes"), "price": best["price"]})
                         hist_all[key] = hist[-HISTORY_LIMIT:]
-                        if not reasons:
-                            continue
                         p = proposed.get(key)
                         if p and (now() - parse_dt(p["ts"])).days < cfg["repeat_after_days"] \
                                 and best["price"] > p["price"] * 0.95:
@@ -400,6 +399,15 @@ def run_search():
                         score = (1 - best["price"] / median) if median else 0
                         if cls == "business" and economy_best:
                             score = max(score, 1 - best["price"] / (economy_best * 2.5))
+                        if not reasons:
+                            # не находка по строгим правилам, но может пойти в добор, если дешевле обычного
+                            if score > 0:
+                                reserve.append({"key": key, "cls": cls, "oneway": oneway,
+                                                "dest_code": code, "name": dest["name"], "to": dest["to"],
+                                                "origin": org["code"], "origin_name": org["name"],
+                                                "from": org["from"], "offer": best, "usual": median,
+                                                "economy": economy_best, "score": score})
+                            continue
                         candidates.append({"key": key, "cls": cls, "oneway": oneway,
                                            "dest_code": code, "name": dest["name"], "to": dest["to"],
                                            "origin": org["code"], "origin_name": org["name"],
@@ -408,17 +416,23 @@ def run_search():
                         print(f"[{key}] находка: {rub(best['price'])} ({', '.join(reasons)})")
 
     candidates.sort(key=lambda c: -c["score"])
-    picked, per_origin, seen_routes = [], {}, set()
-    for c in candidates:
+    reserve.sort(key=lambda c: -c["score"])
+    picked, per_origin, per_dest, seen_routes = [], {}, {}, set()
+    for c in candidates + reserve:
         if len(picked) >= cfg["max_drafts_per_run"]:
             break
+        if c in reserve and len(picked) >= cfg.get("min_drafts_per_run", 0):
+            break
         if per_origin.get(c["origin"], 0) >= cfg.get("max_drafts_per_origin", 99):
+            continue
+        if per_dest.get(c["dest_code"], 0) >= cfg.get("max_drafts_per_destination", 99):
             continue
         route = (c["origin"], c["dest_code"], c["cls"], c["oneway"])
         if route in seen_routes:          # одно направление — один пост за запуск
             continue
         seen_routes.add(route)
         per_origin[c["origin"]] = per_origin.get(c["origin"], 0) + 1
+        per_dest[c["dest_code"]] = per_dest.get(c["dest_code"], 0) + 1
         picked.append(c)
     for d in picked:
         try:
