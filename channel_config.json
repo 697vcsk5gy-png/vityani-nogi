@@ -218,6 +218,144 @@
       "name": "Белград",
       "to": "в Белград",
       "photo": "Belgrade"
+    },
+    {
+      "code": "PAR",
+      "name": "Париж",
+      "to": "в Париж",
+      "photo": "Paris"
+    },
+    {
+      "code": "ROM",
+      "name": "Рим",
+      "to": "в Рим",
+      "photo": "Rome"
+    },
+    {
+      "code": "MIL",
+      "name": "Милан",
+      "to": "в Милан",
+      "photo": "Milan"
+    },
+    {
+      "code": "BCN",
+      "name": "Барселона",
+      "to": "в Барселону",
+      "photo": "Barcelona"
+    },
+    {
+      "code": "MAD",
+      "name": "Мадрид",
+      "to": "в Мадрид",
+      "photo": "Madrid"
+    },
+    {
+      "code": "LIS",
+      "name": "Лиссабон",
+      "to": "в Лиссабон",
+      "photo": "Lisbon"
+    },
+    {
+      "code": "LON",
+      "name": "Лондон",
+      "to": "в Лондон",
+      "photo": "London"
+    },
+    {
+      "code": "AMS",
+      "name": "Амстердам",
+      "to": "в Амстердам",
+      "photo": "Amsterdam"
+    },
+    {
+      "code": "BER",
+      "name": "Берлин",
+      "to": "в Берлин",
+      "photo": "Berlin"
+    },
+    {
+      "code": "PRG",
+      "name": "Прага",
+      "to": "в Прагу",
+      "photo": "Prague"
+    },
+    {
+      "code": "VIE",
+      "name": "Вена",
+      "to": "в Вену",
+      "photo": "Vienna"
+    },
+    {
+      "code": "BUD",
+      "name": "Будапешт",
+      "to": "в Будапешт",
+      "photo": "Budapest"
+    },
+    {
+      "code": "ATH",
+      "name": "Афины",
+      "to": "в Афины",
+      "photo": "Athens"
+    },
+    {
+      "code": "LCA",
+      "name": "Кипр (Ларнака)",
+      "to": "на Кипр",
+      "photo": "Cyprus beach"
+    },
+    {
+      "code": "NYC",
+      "name": "Нью-Йорк",
+      "to": "в Нью-Йорк",
+      "photo": "New York"
+    },
+    {
+      "code": "MIA",
+      "name": "Майами",
+      "to": "в Майами",
+      "photo": "Miami beach"
+    },
+    {
+      "code": "LAX",
+      "name": "Лос-Анджелес",
+      "to": "в Лос-Анджелес",
+      "photo": "Los Angeles"
+    },
+    {
+      "code": "CUN",
+      "name": "Канкун",
+      "to": "в Канкун",
+      "photo": "Cancun beach"
+    },
+    {
+      "code": "HAV",
+      "name": "Гавана",
+      "to": "в Гавану",
+      "photo": "Havana"
+    },
+    {
+      "code": "BUE",
+      "name": "Буэнос-Айрес",
+      "to": "в Буэнос-Айрес",
+      "photo": "Buenos Aires"
+    },
+    {
+      "code": "RIO",
+      "name": "Рио-де-Жанейро",
+      "to": "в Рио-де-Жанейро",
+      "photo": "Rio de Janeiro"
+    },
+    {
+      "code": "CPT",
+      "name": "Кейптаун",
+      "to": "в Кейптаун",
+      "photo": "Cape Town"
+    },
+    {
+      "code": "JNB",
+      "name": "Йоханнесбург",
+      "to": "в Йоханнесбург",
+      "photo": "Johannesburg"
     }
   ]
 }
