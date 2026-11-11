@@ -3,12 +3,7 @@ name: Channel agent
 on:
   schedule:
     - cron: "20 */6 * * *"
-    - cron: "10,40 * * * *"
   workflow_dispatch:
-    inputs:
-      mode:
-        description: "search или approvals"
-        default: "search"
 
 permissions:
   contents: write
@@ -33,16 +28,9 @@ jobs:
           TRAVELPAYOUTS_TRS: ${{ secrets.TRAVELPAYOUTS_TRS }}
           CHANNEL_BOT_TOKEN: ${{ secrets.CHANNEL_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            python channel_agent.py "${{ inputs.mode }}"
-          elif [ "${{ github.event.schedule }}" = "20 */6 * * *" ]; then
-            python channel_agent.py search
-          else
-            python channel_agent.py approvals
-          fi
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+        run: python channel_agent.py search
       - name: Save state
         run: |
           git config user.name "channel-agent"
