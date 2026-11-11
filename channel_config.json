@@ -60,6 +60,10 @@
     "economy",
     "business"
   ],
+  "trip_types": [
+    "roundtrip",
+    "oneway"
+  ],
   "drop_percent": 20,
   "min_history": 4,
   "business_vs_economy": 2.0,
@@ -72,122 +76,146 @@
     {
       "code": "HKT",
       "name": "Пхукет",
-      "to": "на Пхукет"
+      "to": "на Пхукет",
+      "photo": "Phuket beach"
     },
     {
       "code": "BKK",
       "name": "Бангкок",
-      "to": "в Бангкок"
+      "to": "в Бангкок",
+      "photo": "Bangkok temple"
     },
     {
       "code": "SGN",
       "name": "Хошимин",
-      "to": "в Хошимин"
+      "to": "в Хошимин",
+      "photo": "Ho Chi Minh City"
     },
     {
       "code": "PQC",
       "name": "Фукуок",
-      "to": "на Фукуок"
+      "to": "на Фукуок",
+      "photo": "Phu Quoc beach"
     },
     {
       "code": "CXR",
       "name": "Нячанг",
-      "to": "в Нячанг"
+      "to": "в Нячанг",
+      "photo": "Nha Trang beach"
     },
     {
       "code": "DPS",
       "name": "Бали",
-      "to": "на Бали"
+      "to": "на Бали",
+      "photo": "Bali"
     },
     {
       "code": "MLE",
       "name": "Мальдивы",
-      "to": "на Мальдивы"
+      "to": "на Мальдивы",
+      "photo": "Maldives"
     },
     {
       "code": "CMB",
       "name": "Шри-Ланка",
-      "to": "на Шри-Ланку"
+      "to": "на Шри-Ланку",
+      "photo": "Sri Lanka"
     },
     {
       "code": "GOI",
       "name": "Гоа",
-      "to": "на Гоа"
+      "to": "на Гоа",
+      "photo": "Goa beach India"
     },
     {
       "code": "KUL",
       "name": "Куала-Лумпур",
-      "to": "в Куала-Лумпур"
+      "to": "в Куала-Лумпур",
+      "photo": "Kuala Lumpur"
     },
     {
       "code": "SIN",
       "name": "Сингапур",
-      "to": "в Сингапур"
+      "to": "в Сингапур",
+      "photo": "Singapore Marina Bay"
     },
     {
       "code": "HKG",
       "name": "Гонконг",
-      "to": "в Гонконг"
+      "to": "в Гонконг",
+      "photo": "Hong Kong skyline"
     },
     {
       "code": "BJS",
       "name": "Пекин",
-      "to": "в Пекин"
+      "to": "в Пекин",
+      "photo": "Beijing"
     },
     {
       "code": "SHA",
       "name": "Шанхай",
-      "to": "в Шанхай"
+      "to": "в Шанхай",
+      "photo": "Shanghai skyline"
     },
     {
       "code": "TYO",
       "name": "Токио",
-      "to": "в Токио"
+      "to": "в Токио",
+      "photo": "Tokyo"
     },
     {
       "code": "SEL",
       "name": "Сеул",
-      "to": "в Сеул"
+      "to": "в Сеул",
+      "photo": "Seoul"
     },
     {
       "code": "DXB",
       "name": "Дубай",
-      "to": "в Дубай"
+      "to": "в Дубай",
+      "photo": "Dubai"
     },
     {
       "code": "AUH",
       "name": "Абу-Даби",
-      "to": "в Абу-Даби"
+      "to": "в Абу-Даби",
+      "photo": "Abu Dhabi"
     },
     {
       "code": "IST",
       "name": "Стамбул",
-      "to": "в Стамбул"
+      "to": "в Стамбул",
+      "photo": "Istanbul"
     },
     {
       "code": "AYT",
       "name": "Анталья",
-      "to": "в Анталью"
+      "to": "в Анталью",
+      "photo": "Antalya"
     },
     {
       "code": "HRG",
       "name": "Хургада",
-      "to": "в Хургаду"
+      "to": "в Хургаду",
+      "photo": "Hurghada Red Sea"
     },
     {
       "code": "TBS",
       "name": "Тбилиси",
-      "to": "в Тбилиси"
+      "to": "в Тбилиси",
+      "photo": "Tbilisi"
     },
     {
       "code": "EVN",
       "name": "Ереван",
-      "to": "в Ереван"
+      "to": "в Ереван",
+      "photo": "Yerevan"
     },
     {
       "code": "BEG",
       "name": "Белград",
-      "to": "в Белград"
+      "to": "в Белград",
+      "photo": "Belgrade"
     }
   ]
 }
